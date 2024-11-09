@@ -26,6 +26,14 @@ namespace IslandGame
             _count++;
             //cell.State = -1;
         }
+        public void destroy()
+        {
+            foreach(Automata b in _cells)
+            {
+                b.State = 0;
+                b.Island = null;
+            }
+        }
 
         public int GetCombinedHeight() => _combinedHeight;
         public float GetAverageHeight()

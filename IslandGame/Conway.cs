@@ -81,6 +81,14 @@ namespace IslandGame
         {
             _state = 0;
             _reserved = 0;
+            _neighbours = 0;
+
+        }
+        public Brian(Automata other) : base(x: other.Xkord, y: other.Ykord)
+        {
+
+            this._neighbours = other.Neighbours;
+            this._state = other.State;
         }
 
         public override void ReserveState(Automata[,] cells, int i, int j)
@@ -103,6 +111,7 @@ namespace IslandGame
                 neighbours++;
             if (i + 1 < n && j + 1 < m && cells[i + 1, j + 1].State == 1) 
                 neighbours++;
+            _neighbours = neighbours;
             if (_state == 0 && neighbours == 2)
             {
                 _reserved = 1;
@@ -133,6 +142,14 @@ namespace IslandGame
         {
             _state = 0;
             _reserved = 0;
+            _neighbours = 0;
+
+        }
+        public DayNight(Automata other) : base(x: other.Xkord, y: other.Ykord)
+        {
+
+            this._neighbours = other.Neighbours;
+            this._state = other.State;
         }
 
         public override void ReserveState(Automata[,] cells, int i, int j)
@@ -147,6 +164,7 @@ namespace IslandGame
             if (i + 1 < n && j - 1 >= 0 && cells[i + 1, j - 1].State == 1) neighbours++;
             if (i + 1 < n && cells[i + 1, j].State == 1) neighbours++;
             if (i + 1 < n && j + 1 < m && cells[i + 1, j + 1].State == 1) neighbours++;
+            _neighbours= neighbours;
             if (_state == 0 && (neighbours == 3 || neighbours == 6 || neighbours == 7 || neighbours == 8))
             {
                 _reserved = 1;
@@ -178,6 +196,13 @@ namespace IslandGame
         {
             _state = 0;
             _reserved = 0;
+            _neighbours = 0;
+        }
+        public Seeds(Automata other) : base(x: other.Xkord, y: other.Ykord)
+        {
+
+            this._neighbours = other.Neighbours;
+            this._state = other.State;
         }
 
         public override void ReserveState(Automata[,] cells, int i, int j)
@@ -192,6 +217,7 @@ namespace IslandGame
             if (i + 1 < n && j - 1 >= 0 && cells[i + 1, j - 1].State == 1) neighbours++;
             if (i + 1 < n && cells[i + 1, j].State == 1) neighbours++;
             if (i + 1 < n && j + 1 < m && cells[i + 1, j + 1].State == 1) neighbours++;
+            _neighbours= neighbours;
 
             if (_state == 0 && neighbours == 2)
             {
@@ -221,6 +247,14 @@ namespace IslandGame
         {
             _state = 0;
             _reserved = 0;
+            _neighbours = 0;
+
+        }
+        public Maze(Automata other) : base(x: other.Xkord, y: other.Ykord)
+        {
+
+            this._neighbours = other.Neighbours;
+            this._state = other.State;
         }
 
         public override void ReserveState(Automata[,] cells, int i, int j)
@@ -235,6 +269,7 @@ namespace IslandGame
             if (i + 1 < n && j - 1 >= 0 && cells[i + 1, j - 1].State == 1) neighbours++;
             if (i + 1 < n && cells[i + 1, j].State == 1) neighbours++;
             if (i + 1 < n && j + 1 < m && cells[i + 1, j + 1].State == 1) neighbours++;
+            _neighbours= neighbours;
             if (_state == 1 && (neighbours >= 1 && neighbours <= 4))
             {
                 _reserved = 1;

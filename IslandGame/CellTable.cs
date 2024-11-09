@@ -38,13 +38,23 @@ namespace IslandGame
                         }
                         case 1:
                         {
-                            _cells[i, j] = new Seeds(i * _sizeOfCell, j * _sizeOfCell);
+                            _cells[i, j] = new Brian(i * _sizeOfCell, j * _sizeOfCell);
                             break;
                         }
                         case 2:
                         {
-                            _cells[i, j] = new Brian(i * _sizeOfCell, j * _sizeOfCell);
+                            _cells[i, j] = new Seeds(i * _sizeOfCell, j * _sizeOfCell);
                             break;
+                        }
+                        case 3:
+                        {
+                                _cells[i, j] = new DayNight(i * _sizeOfCell, j * _sizeOfCell);
+                                break;
+                        }
+                        case 4:
+                        {
+                                _cells[i, j] = new Maze(i * _sizeOfCell, j * _sizeOfCell);
+                                break;
                         }
                         default:
                         {

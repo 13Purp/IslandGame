@@ -38,6 +38,7 @@ namespace IslandGame
 
 
             _gameLogic = new GameLogic(pictureBox1);
+            colorMap.Invalidate();
 
 
             Form1_Load(null, null);

@@ -73,7 +73,7 @@ namespace IslandGame
             for(int  j = height/ sizeOfCell - 1; j >=0; j--)
             {
                 cells[i, j].State=hIndex;
-                drawCells(e, cells[i, j], 0, 0);
+                drawCells(e, cells[i, j], 0, 0, sizeOfCell);
                 if (hIndex <= 1000)
                     hIndex += heightStep;
                 else
@@ -82,18 +82,18 @@ namespace IslandGame
             
         }
 
-        private void drawCells(System.Windows.Forms.PaintEventArgs e, Automata ce, int selectedHighlightOffset, int winHighlightOffset)
+        private void drawCells(System.Windows.Forms.PaintEventArgs e, Automata ce, int selectedHighlightOffset, int winHighlightOffset, int sizeOfCell)
         {
             Graphics g = e.Graphics;
             int x = ce.Xkord;
             int y = ce.Ykord;
             int gradientPart = ce.State / 250;
             if (ce.State == 0)
-                g.FillRectangle(_brush, x + _padding, y + _padding, _sizeOfCell - _padding, _sizeOfCell - _padding);
+                g.FillRectangle(_brush, x + _padding, y + _padding, sizeOfCell - _padding, sizeOfCell - _padding);
             else if (ce.State < 0)
             {
                 _brush2.Color = Color.FromArgb(255, 0, 0);
-                g.FillRectangle(_brush2, x + _padding, y + _padding, _sizeOfCell - _padding, _sizeOfCell - _padding);
+                g.FillRectangle(_brush2, x + _padding, y + _padding, sizeOfCell - _padding, sizeOfCell - _padding);
             }
             else
             {
@@ -105,7 +105,7 @@ namespace IslandGame
                 R = (R + selectedHighlightOffset <= 255) ? R + selectedHighlightOffset : 255;
                 G = (G + winHighlightOffset <= 255) ? G + winHighlightOffset : 255;
                 _brush2.Color = Color.FromArgb(R, G, B);
-                g.FillRectangle(_brush2, x + _padding, y + _padding, _sizeOfCell - _padding, _sizeOfCell - _padding);
+                g.FillRectangle(_brush2, x + _padding, y + _padding, sizeOfCell - _padding, sizeOfCell - _padding);
 
             }
         }
@@ -314,7 +314,7 @@ namespace IslandGame
                 //    }
                 //}
 
-                drawCells(e, ce, selectedHighlightOffset, winHighlightOffset);
+                drawCells(e, ce, selectedHighlightOffset, winHighlightOffset,_sizeOfCell);
             }
 
         }

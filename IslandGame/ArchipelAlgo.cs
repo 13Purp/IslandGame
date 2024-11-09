@@ -23,6 +23,9 @@ namespace IslandGame
         private int _width;
         private int _height;
         private float _maxHeight;
+        private float _secondMaxHeight;
+        private Island? _maxIsland;
+        private Island? _secondMaxIsland;
 
         public ArchipelAlgo(int x, int y, int sizeOfCell)
         {
@@ -33,12 +36,16 @@ namespace IslandGame
             _layer3=new CellTable(x, y, sizeOfCell);
             _final=new CellTable(x, y, sizeOfCell);
             _islands=new List<Island>();
-            _maxHeight=0;
-           
+            _maxIsland = null;
+            _secondMaxIsland = null; 
+            _maxHeight =0;
+            _secondMaxHeight=0;
+
+
 
         }
 
-        public void generate()
+        public void generate(CellTable externalTable)
         {
             Random random = new Random();
             Random mountainCorrection = new Random();
@@ -68,6 +75,8 @@ namespace IslandGame
                     layer2Map[i, j]=new Conway( layer2Temp[i, j]);
 
                 }
+           
+
 
             for (int i = 0;i<_width;i++)
                 for (int j = 0; j < _height; j++)
@@ -76,6 +85,10 @@ namespace IslandGame
                         layer2Map[i,j].State =(layer1Map[i, j].Neighbours != 0 && layer2Map[i, j].Neighbours != 0) ? layer1Map[i, j].State + layer2Map[i, j].State:0;
 
                 }
+
+        
+
+
 
             _layer1.UpdateState();
             layer1Map = _layer1.GetTable();
@@ -94,6 +107,10 @@ namespace IslandGame
 
 
                 }
+
+           
+
+
 
             findIslands(layer2Map);
 
@@ -119,37 +136,54 @@ namespace IslandGame
                         foreach (Island island in _islands)
                         {
                             if (island.CorrrectWater(layer2Map[i, j]))
+                            {
+                                externalTable.SetTable(layer2Map);
                                 break;
+                            }
+
                         }
 
 
                 }
 
-           // correctingWater(layer2Map);
+            // correctingWater(layer2Map);
 
             for (int i = 1; i < _width - 1; i++)
+            {
                 for (int j = 1; j < _height - 1; j++)
                 {
-                 
-                    if (layer2Map[i, j].State >0 )
+
+                    if (layer2Map[i, j].State > 0)
                     {
 
 
                         int colorUpscale = layer2Map[i, j].State * 250;
                         layer2Map[i, j].State = random.Next(colorUpscale - 250, colorUpscale + 1);
+                        
+
+
                     }
                 }
+
+            }
+
 
 
 
             _final.SetTable(layer2Map);
+            externalTable.SetTable(layer2Map);
 
             foreach (Island island in _islands)
             {
                 island.CalcHeight();
                 float height=island.GetAverageHeight();
-                if(height>_maxHeight)
+                if (height > _maxHeight)
+                {
+                    _secondMaxHeight = _maxHeight;
+                    _secondMaxIsland = _maxIsland;
+                    _maxIsland = island;
                     _maxHeight = height;
+                }
             }
 
 
@@ -353,6 +387,9 @@ namespace IslandGame
         }
 
         public float getMaxHeight() => _maxHeight;
+        public Island? getMaxIsland() => _maxIsland;
+        public float getSecondMaxHeight() => _secondMaxHeight;
+        public Island? getSecondMaxIsland() => _secondMaxIsland;
 
     }
 }

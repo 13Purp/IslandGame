@@ -33,10 +33,11 @@ namespace IslandGame
         protected void InitializeComponent()
         {
             pictureBox1 = new PictureBox();
-            button1 = new Button();
-            button2 = new Button();
             button3 = new Button();
             label1 = new System.Windows.Forms.Label();
+            Score = new System.Windows.Forms.Label();
+            hScore = new System.Windows.Forms.Label();
+            button4 = new Button();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
@@ -51,61 +52,69 @@ namespace IslandGame
             pictureBox1.MouseClick += pictureBox1_MouseClick;
             pictureBox1.MouseMove += pictureBox1_MouseMove;
             // 
-            // button1
-            // 
-            button1.BackColor = Color.FromArgb(120, 81, 169);
-            button1.FlatAppearance.BorderColor = Color.FromArgb(108, 85, 160);
-            button1.FlatAppearance.BorderSize = 0;
-            button1.FlatStyle = FlatStyle.Flat;
-            button1.Font = new Font("Roboto", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button1.Location = new Point(1286, 71);
-            button1.Margin = new Padding(2);
-            button1.Name = "button1";
-            button1.Size = new Size(70, 35);
-            button1.TabIndex = 1;
-            button1.Text = "Kreni";
-            button1.UseVisualStyleBackColor = false;
-            button1.Click += button1_Click;
-            // 
-            // button2
-            // 
-            button2.BackColor = Color.FromArgb(120, 81, 169);
-            button2.FlatStyle = FlatStyle.Flat;
-            button2.Font = new Font("Roboto", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button2.Location = new Point(1200, 548);
-            button2.Margin = new Padding(2);
-            button2.Name = "button2";
-            button2.Size = new Size(115, 35);
-            button2.TabIndex = 2;
-            button2.Text = "Randomize";
-            button2.UseVisualStyleBackColor = false;
-            button2.Click += button2_Click;
-            // 
             // button3
             // 
             button3.BackColor = Color.FromArgb(120, 81, 169);
             button3.FlatStyle = FlatStyle.Flat;
-            button3.Font = new Font("Roboto", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button3.Location = new Point(1354, 548);
+            button3.Font = new Font("Microsoft Sans Serif", 27F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            button3.Location = new Point(11, 430);
             button3.Margin = new Padding(2);
             button3.Name = "button3";
-            button3.Size = new Size(115, 35);
+            button3.Size = new Size(142, 109);
             button3.TabIndex = 3;
-            button3.Text = "Archipelago";
+            button3.Text = "Start";
             button3.UseVisualStyleBackColor = false;
-            button3.Click += button3_Click;
+            button3.Click += button3_ClickAsync;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Roboto", 24.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label1.Font = new Font("Microsoft Sans Serif", 24.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label1.ForeColor = SystemColors.ActiveCaption;
-            label1.Location = new Point(1286, 295);
+            label1.Location = new Point(1569, 974);
             label1.Name = "label1";
-            label1.Size = new Size(86, 39);
+            label1.Size = new Size(294, 38);
             label1.TabIndex = 4;
-            label1.Text = "Hm?";
+            label1.Text = "Remaining Lives: 3";
             label1.TextAlign = ContentAlignment.TopCenter;
+            // 
+            // Score
+            // 
+            Score.AutoSize = true;
+            Score.Font = new Font("Microsoft Sans Serif", 24.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            Score.ForeColor = SystemColors.ActiveCaption;
+            Score.Location = new Point(1249, 974);
+            Score.Name = "Score";
+            Score.Size = new Size(139, 38);
+            Score.TabIndex = 5;
+            Score.Text = "Score: 0";
+            Score.TextAlign = ContentAlignment.TopCenter;
+            // 
+            // hScore
+            // 
+            hScore.AutoSize = true;
+            hScore.Font = new Font("Microsoft Sans Serif", 24.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            hScore.ForeColor = SystemColors.ActiveCaption;
+            hScore.Location = new Point(1436, 22);
+            hScore.Name = "hScore";
+            hScore.Size = new Size(215, 38);
+            hScore.TabIndex = 6;
+            hScore.Text = "High Score: 0";
+            hScore.TextAlign = ContentAlignment.TopCenter;
+            // 
+            // button4
+            // 
+            button4.BackColor = Color.FromArgb(120, 81, 169);
+            button4.FlatStyle = FlatStyle.Flat;
+            button4.Font = new Font("Microsoft Sans Serif", 27F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            button4.Location = new Point(1249, 845);
+            button4.Margin = new Padding(2);
+            button4.Name = "button4";
+            button4.Size = new Size(614, 109);
+            button4.TabIndex = 7;
+            button4.Text = "Hint";
+            button4.UseVisualStyleBackColor = false;
+            button4.Click += button4_Click;
             // 
             // Form1
             // 
@@ -113,10 +122,11 @@ namespace IslandGame
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(18, 18, 18);
             ClientSize = new Size(1904, 1041);
+            Controls.Add(button4);
+            Controls.Add(hScore);
+            Controls.Add(Score);
             Controls.Add(label1);
             Controls.Add(button3);
-            Controls.Add(button2);
-            Controls.Add(button1);
             Controls.Add(pictureBox1);
             Margin = new Padding(2);
             Name = "Form1";
@@ -129,21 +139,21 @@ namespace IslandGame
         private void InitializeTimer()
         {
             timer = new System.Windows.Forms.Timer();
-            timer.Interval = 160;
+            timer.Interval = 16;
             timer.Tick += Timer_Tick;
             timer.Start(); 
         }
 
 
         private PictureBox pictureBox1;
-        private Button button1;
         private System.Windows.Forms.Timer timer;
 
-        #endregion
-
-        private Button button2;
+#endregion
         private Button button3;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label Score;
+        private System.Windows.Forms.Label hScore;
+        private Button button4;
     }
 
 }

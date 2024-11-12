@@ -87,7 +87,7 @@ namespace IslandGame
             label1.AutoSize = true;
             label1.Font = new Font("Microsoft Sans Serif", 24.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.FromArgb(120, 81, 169);
-            label1.Location = new Point(1286, 294);
+            label1.Location = new Point(1425, 544);
             label1.Name = "label1";
             label1.Size = new Size(294, 38);
             label1.TabIndex = 4;
@@ -99,7 +99,7 @@ namespace IslandGame
             Score.AutoSize = true;
             Score.Font = new Font("Microsoft Sans Serif", 24.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             Score.ForeColor = Color.FromArgb(120, 81, 169);
-            Score.Location = new Point(1633, 294);
+            Score.Location = new Point(1493, 294);
             Score.Name = "Score";
             Score.Size = new Size(139, 38);
             Score.TabIndex = 5;
@@ -111,7 +111,7 @@ namespace IslandGame
             hScore.AutoSize = true;
             hScore.Font = new Font("Microsoft Sans Serif", 24.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             hScore.ForeColor = Color.FromArgb(120, 81, 169);
-            hScore.Location = new Point(1434, 22);
+            hScore.Location = new Point(1452, 22);
             hScore.Name = "hScore";
             hScore.Size = new Size(215, 38);
             hScore.TabIndex = 6;
@@ -255,7 +255,7 @@ namespace IslandGame
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(141, 49);
             textBox1.TabIndex = 20;
-            textBox1.Text = "* Fast generation produces worse looking results";
+            textBox1.Text = "* Fast generation produces worse looking results for smaller maps";
             // 
             // checkBox1
             // 

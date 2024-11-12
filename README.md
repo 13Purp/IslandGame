@@ -88,6 +88,17 @@ The gameplay loop
   Form class
 
     -Takes inputs from the player and calls GameLogic methods to handle the logic
+
+## Extras
+
+The game also features a difficulty setting, which determines the size of the cell matrix <br>
+And the ability to change some generation parameters (And by parameters, I mean which Automata is used for which layer) <br>
+By default, all three layers are set to Conways as it seems to be the most playable that way <br>
+Other combinations can produce more visualy interesting results, and some can produce invalid results  <br>
+(Invalid results does not mean that the game crashes, it means that there might only be 1 Island, or cells with a negative height and so on...) <br>
+The combination bellow coupled with fast generation seems to be able to produce striking results <br>
+![image](https://github.com/user-attachments/assets/2278ce86-dbc1-4d08-afa8-a58c0e64e8b0)
+
   
 
   

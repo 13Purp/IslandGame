@@ -15,9 +15,10 @@
         private float _secondMaxHeight;
         private Island? _maxIsland;
         private Island? _secondMaxIsland;
+        private bool _fastGeneration;
         private static readonly HttpClient _client = new HttpClient();
 
-        public ArchipelAlgo(int x, int y, int sizeOfCell, int typeL1 = 0, int typeL2 = 0, int typeL3 = 0, int islandCutOff = 0)
+        public ArchipelAlgo(int x, int y, int sizeOfCell, int typeL1 = 0, int typeL2 = 0, int typeL3 = 0, int islandCutOff = 0, bool fastGen=false)
         {
             _width = x / sizeOfCell;
             _height = y / sizeOfCell;
@@ -31,6 +32,7 @@
             _secondMaxIsland = null;
             _maxHeight = 0;
             _secondMaxHeight = 0;
+            _fastGeneration = fastGen;
 
 
 
@@ -143,8 +145,9 @@
             findIslands(layer2Map);
 
             correctTerrain(layer2Map,externalTable);
+            _islands.Clear();
+            findIslands(layer2Map);
 
-            // correctingWater(layer2Map);
 
             for (int i = 1; i < _width - 1; i++)
             {
@@ -187,118 +190,139 @@
             int[] rNbr = { -1, -1, -1, 0, 0, 1, 1, 1 };
             int[] cNbr = { -1, 0, 1, -1, 1, -1, 0, 1 };
 
+            if(!_fastGeneration)
+                for (int i = 1; i < _width - 1; i++)
+                    for (int j = 1; j < _height - 1; j++)
+                    {
+                        if (layer2Map[i, j].State == 4)
+                        {
+                            for (int k = 0; k < 8; ++k)
+                            {
+                                int newR = i + rNbr[k];
+                                int newC = j + cNbr[k];
+                                if (layer2Map[newR, newC].State == 1) layer2Map[newR, newC].State += correction;
+                            }
+                        }
+                        else if (layer2Map[i, j].State == 0)
+                            foreach (Island island in _islands)
+                            {
+                                if (island.CorrrectWater(layer2Map[i, j]))
+                                {
+                                    externalTable.SetTable(layer2Map);
+                                    break;
+                                }
+
+                            }
+
+
+                    }
+            else
+            {
+                for (int i = 1; i < _width - 1; i++)
+                    for (int j = 1; j < _height - 1; j++)
+                    {
+                        if (layer2Map[i, j].State == 4)
+                        {
+                            for (int k = 0; k < 8; ++k)
+                            {
+                                int newR = i + rNbr[k];
+                                int newC = j + cNbr[k];
+                                if (layer2Map[newR, newC].State == 1) layer2Map[newR, newC].State += correction;
+                            }
+                        }
+
+
+                    }
+                correctingWater(layer2Map);
+                externalTable.SetTable(layer2Map);
+            }
+        }
+
+        private void correctingWater(Automata[,] map)
+        {
+            int[,] matrix = new int[_width, _height];
+            for (int i = 0; i < _width; i++)
+                for (int j = 0; j < _height; j++)
+                {
+                    if (i == 0 || j == 0 || i == _width - 1 || j == _height - 1)
+                        matrix[i, j] = 0;
+                    else
+                        matrix[i, j] = -1;
+                }
 
             for (int i = 1; i < _width - 1; i++)
                 for (int j = 1; j < _height - 1; j++)
                 {
-                    if (layer2Map[i, j].State == 4)
+                    if (map[i, j].State == 0 && matrix[i, j] == -1)
                     {
-                        for (int k = 0; k < 8; ++k)
-                        {
-                            int newR = i + rNbr[k];
-                            int newC = j + cNbr[k];
-                            if (layer2Map[newR, newC].State == 1) layer2Map[newR, newC].State += correction;
-                        }
-                    }
-                    else if (layer2Map[i, j].State == 0)
+                        bool isFree = false;
                         foreach (Island island in _islands)
                         {
-                            if (island.CorrrectWater(layer2Map[i, j]))
+                            if (island.CorrrectWater(map[i, j]))
                             {
-                                externalTable.SetTable(layer2Map);
+                                isFree = true;
                                 break;
                             }
-
                         }
-
-
+                        if (!isFree)
+                        {
+                            waterBFS(map, matrix, i, j);
+                        }
+                    }
                 }
         }
 
-        //private void correctingWater(Automata[,] map)
-        //{
-        //    int[,] matrix = new int[_width, _height];
-        //    for (int i = 0; i < _width ; i++)
-        //        for (int j = 0; j < _height; j++)
-        //        {
-        //            if(i==0||j==0||i==_width-1||j==_height-1)
-        //                matrix[i, j] = 0;
-        //            else
-        //                matrix[i, j] = -1;
-        //        }
+        private void waterBFS(Automata[,] map, int[,] matrix, int i, int j)
+        {
+            int[] rNbr = { -1, 0, 0, 1 };
+            int[] cNbr = { 0, -1, 1, 0 };
+            int[] rNbr2 = { -1, -1, -1, 0, 0, 1, 1, 1 };
+            int[] cNbr2 = { -1, 0, 1, -1, 1, -1, 0, 1 };
+            Queue<(int, int)> q = new Queue<(int, int)>();
+            q.Enqueue((i, j));
+            matrix[i, j] = 0;
 
-        //    for (int i = 1; i < _width-1 ; i++)
-        //        for (int j = 1; j < _height-1 ; j++)
-        //        {
-        //            if (map[i, j].State == 0 && matrix[i,j]==-1)
-        //            {
-        //                bool isFree=false;
-        //                foreach (Island island in _islands)
-        //                {
-        //                    if (island.CorrrectWater(map[i, j])) {
-        //                        isFree = true;
-        //                        break;
-        //                    }
-        //                }
-        //                if (!isFree)
-        //                {
-        //                    waterBFS(map, matrix, i, j);
-        //                }
-        //            }
-        //        }
-        //}
+            while (q.Count > 0)
+            {
+                var (r, c) = q.Dequeue();
+                int numOfWaterNeighbors = 0;
 
-        //private void waterBFS(Automata[,] map, int[,] matrix, int i, int j)
-        //{
-        //    int[] rNbr = { -1, 0, 0, 1 };
-        //    int[] cNbr = { 0, -1, 1, 0 };
-        //    int[] rNbr2 = { -1, -1, -1, 0, 0, 1, 1, 1 };
-        //    int[] cNbr2 = { -1, 0, 1, -1, 1, -1, 0, 1 };
-        //    Queue<(int, int)> q = new Queue<(int, int)>();
-        //    q.Enqueue((i,j));
-        //    matrix[i,j] = 0;
+                for (int k = 0; k < 4; k++)
+                {
+                    int newR = r + rNbr[k];
+                    int newC = c + cNbr[k];
+                    if (IsSafeWater(map, newR, newC))
+                        numOfWaterNeighbors++;
+                    if (numOfWaterNeighbors < 4)
+                        continue;
+                }
+                for (int k = 0; k < 4; k++)
+                {
+                    int newR = r + rNbr[k];
+                    int newC = c + cNbr[k];
+                    if (IsSafeWater(map, newR, newC))
+                    {
+                        if (matrix[newR, newC] == -1)
+                        {
+                            q.Enqueue((newR, newC));
+                            matrix[newR, newC] = 0;
+                        }
 
-        //    while (q.Count > 0)
-        //    {
-        //        var (r, c) = q.Dequeue();
-        //        int numOfWaterNeighbors = 0;
+                    }
+                }
+            }
 
-        //        for (int k = 0; k < 4; k++)
-        //        {
-        //            int newR = r + rNbr[k];
-        //            int newC = c + cNbr[k];
-        //            if (IsSafeWater(map, newR, newC))
-        //                numOfWaterNeighbors++;
-        //            if (numOfWaterNeighbors < 4)
-        //                continue;
-        //        }
-        //        for (int k = 0; k < 4; k++)
-        //        {
-        //            int newR = r + rNbr[k];
-        //            int newC = c + cNbr[k];
-        //            if (IsSafeWater(map, newR, newC))
-        //            {
-        //                if (matrix[newR, newC] == -1)
-        //                {
-        //                    q.Enqueue((newR, newC));
-        //                    matrix[newR, newC] = 0;
-        //                }
+        }
 
-        //            }
-        //        }
-        //    }
-
-        //}
-
-        //private bool IsSafeWater(Automata[,] map, int x, int y)
-        //{
-        //    int ROW = map.GetLength(0);
-        //    int COL = map.GetLength(1);
+        private bool IsSafeWater(Automata[,] map, int x, int y)
+        {
+            int ROW = map.GetLength(0);
+            int COL = map.GetLength(1);
 
 
-        //    return (x >= 0) && (x < ROW) && (y >= 0) && (y < COL) &&
-        //           (map[x, y].State == 0);
-        //}
+            return (x >= 0) && (x < ROW) && (y >= 0) && (y < COL) &&
+                   (map[x, y].State == 0);
+        }
 
         private bool IsSafe(Automata[,] map, int x, int y, bool[,] visited)
         {

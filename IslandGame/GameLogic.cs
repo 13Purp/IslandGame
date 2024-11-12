@@ -28,6 +28,8 @@ namespace IslandGame
         private int _typeL1;
         private int _typeL2;
         private int _typeL3;
+        private int _guessStreak;
+        private bool _fastGeneration;
         private CellTable _heightMap;
         private static readonly HttpClient _client = new HttpClient();
 
@@ -53,6 +55,8 @@ namespace IslandGame
             _goodGuess = false;
             _usedHint = false;
             _pictureBox = pictureBox;
+            _fastGeneration = false;
+            _guessStreak = 0;
             _archipelago = new ArchipelAlgo(_width, _height, _sizeOfCell, typeL1, typeL2, typeL3, diff+1);
 
 
@@ -176,6 +180,12 @@ namespace IslandGame
                 }
                 _score++;
                 _goodGuess = true;
+                _guessStreak++;
+                if (_guessStreak == 3)
+                {
+                    _guessStreak = 0;
+                    _usedHint = false;
+                }
                 if (_score >= _highScore)
                     _highScore = _score;
 
@@ -187,6 +197,7 @@ namespace IslandGame
             }
             else
             {
+                _guessStreak = 0;
                 _lives--;
                 if (_lives == 0)
                 {
@@ -210,6 +221,7 @@ namespace IslandGame
         public int GetScore() => _score;
         public int GetHighScore() => _highScore;
         public bool UsedHint() => _usedHint;
+        public void setFastGen(bool fastGen) => _fastGeneration = fastGen;
 
         private void Shake()
         {
@@ -231,6 +243,7 @@ namespace IslandGame
             Automata[,] cells = _cellTable.GetTable();
             int selectedHighlightOffset;
             int winHighlightOffset;
+           
 
             foreach (Automata ce in cells)
             {
@@ -257,62 +270,7 @@ namespace IslandGame
                     winHighlightOffset = 0;
                 }
 
-                //int gradientPart = ce.State / 250;
-                //if (ce.State == 0)
-                //    g.FillRectangle(_brush, x + _padding, y + _padding, _sizeOfCell - _padding, _sizeOfCell - _padding);
-                //else if (ce.State < 0)
-                //{
-                //    _brush2.Color = Color.FromArgb(255, 0, 0);
-                //    g.FillRectangle(_brush2, x + _padding, y + _padding, _sizeOfCell - _padding, _sizeOfCell - _padding);
-                //}
-                //else
-                //{
-                //    int R, G, B;
-                //    switch (gradientPart)
-                //    {
-
-                //        case 0:
-                //            {
-                //                R = 10 + (ce.State / 2 + 1) + selectedHighlightOffset;
-                //                G = 120;
-                //                B = 10;
-                //                _brush2.Color = Color.FromArgb(R, G, B);
-                //                g.FillRectangle(_brush2, x + _padding, y + _padding, _sizeOfCell - _padding, _sizeOfCell - _padding);
-                //                break;
-                //            };
-                //        case 1:
-                //            {
-                //                if ((ce.State < 375))
-                //                {
-                //                    R = (130 + selectedHighlightOffset<=255) ? 130 + selectedHighlightOffset :255;
-                //                    G = 120 - (ce.State / 8 + 1) + winHighlightOffset;
-                //                    B = 10;
-                //                }
-                //                else
-                //                {
-                //                    R = (130 - (ce.State / 8 + 1) + selectedHighlightOffset<=255) ? 130 - (ce.State / 8 + 1) + selectedHighlightOffset:255;
-                //                    G = 60 - (ce.State / 16 + 1) + winHighlightOffset;
-                //                    B = 10;
-                //                }
-                //                _brush2.Color = Color.FromArgb(R, G, B);
-                //                g.FillRectangle(_brush2, x + _padding, y + _padding, _sizeOfCell - _padding, _sizeOfCell - _padding);
-                //                break;
-                //            };
-                //        case 2:
-                //            {
-                //                R = (40 + ce.State / 6 + selectedHighlightOffset > 255) ? 255 : (40 + ce.State / 6 + selectedHighlightOffset);
-                //                G = (40 + ce.State / 6 + winHighlightOffset > 255) ? 255 : (40 + ce.State / 6 + winHighlightOffset);
-                //                B = 40 + ce.State / 6;
-                //                _brush2.Color = Color.FromArgb(R, G, B);
-                //                g.FillRectangle(_brush2, x + _padding, y + _padding, _sizeOfCell - _padding, _sizeOfCell - _padding);
-                //                break;
-                //            };
-
-                //        default: break;
-
-
-                //    }
-                //}
+                
 
                 drawCells(e, ce, selectedHighlightOffset, winHighlightOffset,_sizeOfCell);
             }
@@ -324,7 +282,7 @@ namespace IslandGame
         {
             _highlighted = new Dictionary<(int, int), bool>();
             _cellTable = new CellTable(_width, _height, _sizeOfCell);
-            _archipelago = new ArchipelAlgo(_width, _height, _sizeOfCell,_typeL1,_typeL2,_typeL3,_diff+1);
+            _archipelago = new ArchipelAlgo(_width, _height, _sizeOfCell,_typeL1,_typeL2,_typeL3,_diff+1,_fastGeneration);
             _ready = false;
             _goodGuess = false;
             await Task.Run(() => _archipelago.generate(_cellTable));

@@ -62,6 +62,9 @@ namespace IslandGame
             label1.Text = "Remaining Lives: " + _gameLogic.GetLives();
             Score.Text = "Score: " + _gameLogic.GetScore();
             hScore.Text = "High Score: " + _gameLogic.GetHighScore();
+            if(!_gameLogic.UsedHint())
+                button4.BackColor = Color.FromArgb(120, 81, 169);
+
 
 
             pictureBox1.Invalidate();
@@ -102,6 +105,7 @@ namespace IslandGame
 
 
             _gameLogic = new GameLogic(pictureBox1, _diff, _layer1, _layer2, _layer3);
+            _gameLogic.setFastGen(checkBox1.Checked);
             _gameLogic.Generate();
             label1.Text = "Remaining Lives: " + _gameLogic.GetLives();
             Score.Text = "Score: " + _gameLogic.GetScore();
@@ -187,5 +191,7 @@ namespace IslandGame
         {
             _gameLogic.drawHeightMap(colorMap, e);
         }
+
+        
     }
 }

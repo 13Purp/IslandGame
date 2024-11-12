@@ -47,6 +47,8 @@ namespace IslandGame
             label5 = new System.Windows.Forms.Label();
             label6 = new System.Windows.Forms.Label();
             groupBox1 = new GroupBox();
+            textBox1 = new TextBox();
+            checkBox1 = new CheckBox();
             button1 = new Button();
             colorMap = new PictureBox();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
@@ -71,7 +73,7 @@ namespace IslandGame
             button3.FlatStyle = FlatStyle.Flat;
             button3.Font = new Font("Microsoft Sans Serif", 27F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button3.ForeColor = Color.FromArgb(224, 224, 224);
-            button3.Location = new Point(13, 609);
+            button3.Location = new Point(11, 746);
             button3.Margin = new Padding(2);
             button3.Name = "button3";
             button3.Size = new Size(142, 109);
@@ -85,7 +87,7 @@ namespace IslandGame
             label1.AutoSize = true;
             label1.Font = new Font("Microsoft Sans Serif", 24.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.FromArgb(120, 81, 169);
-            label1.Location = new Point(1569, 974);
+            label1.Location = new Point(1286, 294);
             label1.Name = "label1";
             label1.Size = new Size(294, 38);
             label1.TabIndex = 4;
@@ -97,7 +99,7 @@ namespace IslandGame
             Score.AutoSize = true;
             Score.Font = new Font("Microsoft Sans Serif", 24.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             Score.ForeColor = Color.FromArgb(120, 81, 169);
-            Score.Location = new Point(1341, 974);
+            Score.Location = new Point(1633, 294);
             Score.Name = "Score";
             Score.Size = new Size(139, 38);
             Score.TabIndex = 5;
@@ -109,7 +111,7 @@ namespace IslandGame
             hScore.AutoSize = true;
             hScore.Font = new Font("Microsoft Sans Serif", 24.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             hScore.ForeColor = Color.FromArgb(120, 81, 169);
-            hScore.Location = new Point(1484, 22);
+            hScore.Location = new Point(1434, 22);
             hScore.Name = "hScore";
             hScore.Size = new Size(215, 38);
             hScore.TabIndex = 6;
@@ -122,10 +124,10 @@ namespace IslandGame
             button4.FlatStyle = FlatStyle.Flat;
             button4.Font = new Font("Microsoft Sans Serif", 27F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button4.ForeColor = Color.FromArgb(224, 224, 224);
-            button4.Location = new Point(1341, 845);
+            button4.Location = new Point(1341, 584);
             button4.Margin = new Padding(2);
             button4.Name = "button4";
-            button4.Size = new Size(522, 109);
+            button4.Size = new Size(462, 109);
             button4.TabIndex = 7;
             button4.Text = "Hint";
             button4.UseVisualStyleBackColor = false;
@@ -137,7 +139,7 @@ namespace IslandGame
             diffBox.FlatStyle = FlatStyle.Flat;
             diffBox.ForeColor = SystemColors.ScrollBar;
             diffBox.FormattingEnabled = true;
-            diffBox.Location = new Point(13, 571);
+            diffBox.Location = new Point(12, 706);
             diffBox.Name = "diffBox";
             diffBox.Size = new Size(141, 23);
             diffBox.TabIndex = 8;
@@ -148,7 +150,7 @@ namespace IslandGame
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label3.ForeColor = Color.Gray;
-            label3.Location = new Point(15, 553);
+            label3.Location = new Point(12, 678);
             label3.Name = "label3";
             label3.Size = new Size(62, 15);
             label3.TabIndex = 13;
@@ -226,6 +228,8 @@ namespace IslandGame
             // groupBox1
             // 
             groupBox1.BackColor = Color.FromArgb(30, 30, 30);
+            groupBox1.Controls.Add(textBox1);
+            groupBox1.Controls.Add(checkBox1);
             groupBox1.Controls.Add(label6);
             groupBox1.Controls.Add(label5);
             groupBox1.Controls.Add(label4);
@@ -234,12 +238,34 @@ namespace IslandGame
             groupBox1.Controls.Add(layer1);
             groupBox1.FlatStyle = FlatStyle.Flat;
             groupBox1.ForeColor = Color.Gray;
-            groupBox1.Location = new Point(6, 22);
+            groupBox1.Location = new Point(11, 92);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(157, 177);
+            groupBox1.Size = new Size(152, 276);
             groupBox1.TabIndex = 17;
             groupBox1.TabStop = false;
             groupBox1.Text = "Map generation settings";
+            // 
+            // textBox1
+            // 
+            textBox1.BackColor = Color.FromArgb(30, 30, 30);
+            textBox1.BorderStyle = BorderStyle.None;
+            textBox1.ForeColor = Color.Gray;
+            textBox1.Location = new Point(7, 221);
+            textBox1.Multiline = true;
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(141, 49);
+            textBox1.TabIndex = 20;
+            textBox1.Text = "* Fast generation produces worse looking results";
+            // 
+            // checkBox1
+            // 
+            checkBox1.AutoSize = true;
+            checkBox1.Location = new Point(6, 196);
+            checkBox1.Name = "checkBox1";
+            checkBox1.Size = new Size(107, 19);
+            checkBox1.TabIndex = 17;
+            checkBox1.Text = "Fast generation";
+            checkBox1.UseVisualStyleBackColor = true;
             // 
             // button1
             // 
@@ -247,7 +273,7 @@ namespace IslandGame
             button1.FlatStyle = FlatStyle.Flat;
             button1.Font = new Font("Microsoft Sans Serif", 8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button1.ForeColor = Color.FromArgb(224, 224, 224);
-            button1.Location = new Point(11, 974);
+            button1.Location = new Point(12, 895);
             button1.Margin = new Padding(2);
             button1.Name = "button1";
             button1.Size = new Size(142, 38);
@@ -322,6 +348,8 @@ namespace IslandGame
         private GroupBox groupBox1;
         private Button button1;
         private PictureBox colorMap;
+        private CheckBox checkBox1;
+        private TextBox textBox1;
     }
 
 }
